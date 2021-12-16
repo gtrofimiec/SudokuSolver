@@ -8,9 +8,7 @@ import Sudoku.SudokuGame;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SudokuProcessor {
 
@@ -97,26 +95,18 @@ public class SudokuProcessor {
     void eliminationFromPossibleValuesList(SudokuBoard board, @NotNull List<SudokuElement> listElementsToCompare,
                                               @NotNull SudokuElement comparedElement) throws CloneNotSupportedException {
 
-        if (listElementsToCompare.stream()
-                .filter(val -> Collections.frequency(listElementsToCompare, val) !=-1)
-                .collect(Collectors.toList()).isEmpty()) {
-            List<Integer> valuesEnteredInRange = listElementsToCompare.stream()
-                    .map(SudokuElement::getValue)
-                    .filter(val -> val != -1)
-                    .collect(Collectors.toList());
+        List<Integer> valuesEnteredInRange = listElementsToCompare.stream()
+                .map(SudokuElement::getValue)
+                .filter(val -> val != -1)
+                .collect(Collectors.toList());
 
-            List<Integer> newListOfPossibleValues = comparedElement.getPossibleValues().stream()
-                    .filter(val -> !valuesEnteredInRange.contains(val))
-                    .collect(Collectors.toList());
-            comparedElement.setPossibleValues(newListOfPossibleValues);
+        List<Integer> newListOfPossibleValues = comparedElement.getPossibleValues().stream()
+                .filter(val -> !valuesEnteredInRange.contains(val))
+                .collect(Collectors.toList());
+        comparedElement.setPossibleValues(newListOfPossibleValues);
 
-            if (comparedElement.getPossibleValues().size() == 1) {
-                settingNewValueToBoard(board, comparedElement, comparedElement.getPossibleValues().get(0));
-            }
-        } else {
-            System.out.println("This Sudoku is not correct!");
-            SudokuGame sudokuGame = new SudokuGame();
-            sudokuGame.startGame();
+        if (comparedElement.getPossibleValues().size() == 1) {
+            settingNewValueToBoard(board, comparedElement, comparedElement.getPossibleValues().get(0));
         }
     }
 
