@@ -114,8 +114,10 @@ public class SudokuProcessor {
 
         Set<SudokuElement> rangeOfElement = boardGenerator.generateRangeForElement(board, rowCounter - 1,
                 columnCounter - 1);
+
         boolean notExistInRange = rangeOfElement.stream()
                 .noneMatch(val -> val.getValue() == element.getPossibleValues().get(0));
+
         if(notExistInRange) {
             element.setValue(possibleValue);
             newValueEnteredToBoard = true;
